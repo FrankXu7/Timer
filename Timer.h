@@ -7,7 +7,7 @@
  * @date 2021-04-12
  **************************************************************************************************/ 
 
-#include <map>
+#include <unordered_map>
 #include <chrono>
 
 /** 封装单个计时器执行需要的数据 */
@@ -44,7 +44,12 @@ public:
 	 * @param repeat 回调重复次数，默认值-1表示在单例对象生命周期内一直执行
 	 * @return 返回创建好的计时器ID
 	 */
-	unsigned int AddTimer(void(*callback)(unsigned long), unsigned int millisec, unsigned int repeat = -1);
+	unsigned int AddTimer(void(*callback)(unsigned long int), unsigned int millisec, unsigned int repeat = -1);
+	/**
+	 * @brief 移除一个计时器
+	 * @param timerId 计时器ID
+	 */
+	void RemoveTimer(unsigned int timerId);
 
 private:
 	/** 计时器对象单例，项目中的计时器应该统一管理 */
@@ -61,10 +66,11 @@ private:
 	 *		回调函数指针，
 	 *		回调间隔（单位：毫秒 milliseconds），
 	 *		回调重复次数（默认-1不停止），
-	 *		循环标识（初始和回调间隔值相同，自减1至0时执行回调）
+	 *		循环标识（初始和回调间隔值相同，自减1，减至0时执行回调）
 	 * >
 	 */
-	std::map<unsigned int, std::tuple<void(*)(unsigned long int), unsigned int, unsigned int, unsigned int>> callbacks;
+	std::unordered_map<unsigned int, 
+		std::tuple<void(*)(unsigned long int), unsigned int, unsigned int, unsigned int>> callbacks;
 	/**
 	 * @brief 开始执行计时器，在添加计时器和删除计时器时，通过控制 Timer::b_running 来决定是否调用该函数
 	 */
