@@ -96,9 +96,19 @@ void Timer::Execute()
 				// 执行的次数大于0表示定义了执行次数
 				if (std::get<2>(itr->second) > 0 && --std::get<2>(itr->second) == 0)
 				{
-					RemoveTimer(itr->first);
+					// 被移除元素的后一位元素，会顶替移除元素位置，所以需要将迭代器往前指一位，避免遗漏一次遍历
+					if (itr == callbacks.begin())
+					{
+						RemoveTimer(itr->first);
+						itr = callbacks.begin();
+					}
+					else
+					{
+						auto tempItr = itr--;
+						RemoveTimer(tempItr->first);
+					}
+					
 				}
-
 			}
 
 			// 移除计时器操作时会更新计时器运行标识：Timer::b_running 

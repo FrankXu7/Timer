@@ -1,9 +1,11 @@
 #include "Timer.h"
 #include <iostream>
 #include <vector>
+#include <thread>
 
 using namespace std;
 
+Timer* ob = Timer::GetInstance();
 
 void func1(long long int timeStamp)
 {
@@ -17,11 +19,23 @@ void func2(long long int timeStamp)
 	cout << "func2\t" << ++n << '\t' << timeStamp << endl;
 }
 
+void timer1()
+{
+	ob->AddTimer(func1, 1000, 10);
+}
+
+void timer2()
+{
+	ob->AddTimer(func2, 1000, -1);
+}
+
 int main()
 {
-	Timer *ob = Timer::GetInstance();
-	ob->AddTimer(&func1, 100, 10);
-	ob->AddTimer(&func2, 100, -1);
+	thread th1(timer1);
+	thread th2(timer2);
+	th1.join();
+	th2.join();
+	
 
 	cout << endl;
 	return 0;
