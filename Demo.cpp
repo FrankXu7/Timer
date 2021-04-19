@@ -21,12 +21,12 @@ void func2(long long int timeStamp)
 
 void timer1()
 {
-	ob->AddTimer(func1, 1000, 10);
+	ob->AddTimer(func1, 1000, 5);
 }
 
 void timer2()
 {
-	ob->AddTimer(func2, 1000, -1);
+	ob->AddTimer(func2, 1000, 10);
 }
 
 int main()
@@ -34,7 +34,9 @@ int main()
 	thread th1(timer1);
 	thread th2(timer2);
 	th1.join();
+	cout << "Block by th1, block done!\n";
 	th2.join();
+	cout << "Block by th2, block done!\n";
 	
 
 	cout << endl;

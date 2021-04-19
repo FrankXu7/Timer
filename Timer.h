@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <chrono>
 
+typedef typename std::tuple<void(*)(long long int), long long int, long long int, long long int> TIMER_ITEM;
+
 /** 封装单个计时器执行需要的数据 */
 struct CallData
 {
@@ -73,8 +75,7 @@ private:
 	 *	long long int				循环标识（初始为0，自加1，加至 回调间隔 时执行回调）；
 	 * >
 	 */
-	std::unordered_map<unsigned int, 
-		std::tuple<void(*)(long long int), long long int, long long int, long long int>> callbacks;
+	std::unordered_map<unsigned int, TIMER_ITEM> callbacks;
 	/**
 	 * @brief 开始执行计时器，在添加计时器和删除计时器时，通过控制 Timer::b_running 来决定是否调用该函数
 	 */

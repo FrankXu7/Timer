@@ -70,8 +70,7 @@ void Timer::Execute()
 
 	long long int deltaTime;
 
-	std::unordered_map<unsigned int, 
-		std::tuple<void(*)(long long int), long long int, long long int, long long int>>::iterator itr;
+	std::unordered_map<unsigned int, TIMER_ITEM>::iterator itr;
 
 	while (b_running)
 	{
