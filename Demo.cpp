@@ -11,7 +11,7 @@ void func1(long long int timeStamp)
 {
 	static int n = 0;
 	cout << "func1\t" << ++n << '\t' << timeStamp << endl;
-}
+} 
 
 void func2(long long int timeStamp)
 {
